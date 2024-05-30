@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(savedItem)
         console.log(newSaved)
         var ss = newSaved.map((element) => {
-            return (`<div class="list-item">
+            return (`<div class="list-item" id="list-item">
                         <p class="item-p">${element}</p>
                         <div class="icons-div">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
@@ -61,7 +61,7 @@ document.getElementById("submit-item").addEventListener("click", () => {
     } else {
         userArray.push(userInput)
         var items = userArray.map((item) => {
-            return (`<div class="list-item">
+            return (`<div class="list-item" id="list-item">
             <p class="item-p">${item}</p>
             <div class="icons-div">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
@@ -87,6 +87,15 @@ document.getElementById("submit-item").addEventListener("click", () => {
         }, 2000)
         console.log(userArray)
     }
+    setTimeout(() => {
+        var el = document.querySelector(".list-item")
+        if(el && el.addEventListener){
+            document.getElementById("delete-icon").addEventListener("click", () => {
+                console.log("HEY")
+                document.getElementById("list-item").remove()
+            })
+        }
+    }, 3000)
 })
 
 
@@ -110,16 +119,6 @@ document.getElementById("submit-item").addEventListener("click", () => {
 
 
 // DELETE ITEMS USING THE DELETE ICON
-
-setTimeout(() => {
-    document.querySelectorAll(".delete-icon").forEach(element => {
-        console.log(element)
-        element.addEventListener("click", () => {
-            document.querySelector(".list-item").remove()
-        })
-    })
-})
-
 
 
 // DELETE ALL ITEMS USING Clear Items
