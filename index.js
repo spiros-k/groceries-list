@@ -2,6 +2,7 @@
 let userInput = ""
 let userArray = []
 let newValue;
+let elementClicked = false;
 const errorDiv = document.createElement("div")
 
 
@@ -17,12 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return (`<div class="list-item">
                         <p class="item-p">${element}</p>
                         <div class="icons-div">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" 
                                 class="bi bi-pencil-square" viewBox="0 0 16 16" id="edit-icon">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" 
                                 class="bi bi-trash3" viewBox="0 0 16 16" id="delete-icon" class="delete-icon">
                                 <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5
                                 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("submit-item").addEventListener("click", () => {
     userInput = document.getElementById("add-item").value;
     asyncCall()
-    document.getElementById("add-item").value = "";
+    //document.getElementById("add-item").value = "";
 })
 
 function createItemsDynamically() {
@@ -84,12 +85,12 @@ function createItemsDynamically() {
                     return (`<div class="list-item">
                     <p class="item-p">${item}</p>
                     <div class="icons-div">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" 
                             class="bi bi-pencil-square" viewBox="0 0 16 16" id="edit-icon">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" 
                             class="bi bi-trash3" viewBox="0 0 16 16" id="delete-icon" class="delete-icon">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5
                             1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0
@@ -117,48 +118,68 @@ async function asyncCall() {
 
     const result = await createItemsDynamically()
     console.log(result)
+    asyncDelete()
+    asyncEdit()
+}
+
+async function asyncDelete() {
+
     var itemToBeDeleted = document.querySelectorAll(".list-item")
     for(let k = 0; k < itemToBeDeleted.length; k++){
         var iconToDeleteDiv = document.querySelectorAll(".bi-trash3")
-        //var iconToEditDiv = document.querySelectorAll(".bi-pencil-square")
-        
         if(itemToBeDeleted[k] && iconToDeleteDiv[k]){
             console.log("HEY 1")
             iconToDeleteDiv[k].addEventListener("click", () => {
-                console.log("HEY 2")
-                localStorage.removeItem(itemToBeDeleted[k])
+                //localStorage.removeItem(item[k]) remove from localStorage any item that gets deleted
                 itemToBeDeleted[k].remove()
-                
             })
-        //} else if(itemToBeDeleted[k] && iconToEditDiv[k]){
-            //iconToEditDiv[k].addEventListener("click", () => {
-
-            //})
+            
         } else {
             console.log("NONE EXISTANT")
         }
-        // here add code to check if all items are deleted one by one, then when a new item is added should be the first and not keep the previous too
-    }
-    
+     // here add code to check if all items are deleted one by one, then when a new item is added should be the first and not keep the previous too
+    } 
 }
-
 
 // EDIT ITEMS USING THE EDIT ICON
 
-    
-        // for(let i = 0; i < userArray.length; i++){
-        //     let editIcon = document.querySelectorAll(".edit-icon")
-        //     editIcon[i].addEventListener("click", () => {
-                
-        //         document.getElementById("add-item").value = document.getElementsByClassName("items-p")[i].textContent
-        //         document.getElementById("add-item").addEventListener("click", () => {
+async function asyncEdit() {
 
-        //             userArray[i] = document.getElementById("add-item").value
-        //             let itemP = document.getElementsByClassName("item-p")
-        //             itemP[i].textContent = document.getElementById("add-item").value
-        //         })
-        //     })
-        // }
+    
+
+    var iconToEditDiv = document.querySelectorAll(".bi-pencil-square");
+    var itemToBeEdited = document.querySelectorAll(".item-p");
+    
+    for(let i = 0; i < itemToBeEdited.length; i++){
+        if(itemToBeEdited[i] && iconToEditDiv[i]){
+            iconToEditDiv[i].addEventListener("click", () => {
+                elementClicked = true;
+
+                if(elementClicked === true){
+
+                    document.getElementById("submit-item").value = "Edit"; // change to submit again
+                    console.log("HEY 2")
+                    document.getElementById("add-item").value = itemToBeEdited[i].textContent;
+
+                    console.log("HEY 4")
+
+                    document.getElementById("submit-item").addEventListener("click", () => {
+                        
+                        itemToBeEdited[i].remove()
+                        let newPItem = document.getElementById("add-item").value;
+                        itemToBeEdited[i].innerHTML = newPItem;
+                        document.getElementById("submit-item").value = "Submit";
+                    })
+                    elementClicked = false;
+                }
+
+            })  
+        } 
+    }
+}
+
+
+
 
 
 
